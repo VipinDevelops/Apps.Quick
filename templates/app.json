@@ -1,0 +1,15 @@
+{
+    "id": "ce016108-31f6-48b9-8b41-7cc42a33e8b4",
+    "version": "0.0.1",
+    "requiredApiVersion": "^1.4.0",
+    "iconFile": "icon.png",
+    "author": {
+        "name": "Vipin Chaudhary",
+        "homepage": "https://github.com/VipinDevelops",
+        "support": "https://github.com/VipinDevelops"
+    },
+    "name": "Templates",
+    "nameSlug": "templates",
+    "classFile": "TemplatesApp.ts",
+    "description": "Simplify the process of sending common messages"
+}
