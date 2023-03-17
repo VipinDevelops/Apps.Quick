@@ -1,0 +1,23 @@
+import { IRead, IModify } from "@rocket.chat/apps-engine/definition/accessors";
+import { IRoom } from "@rocket.chat/apps-engine/definition/rooms";
+import { IUser } from "@rocket.chat/apps-engine/definition/users";
+
+export async function sendNotification(
+    read: IRead,
+    modify: IModify,
+    user: IUser,
+    room: IRoom,
+    message: string,
+): Promise<void> {
+    const appUser = (await read.getUserReader().getAppUser()) as IUser;
+
+    const msg = modify
+        .getCreator()
+        .startMessage()
+        .setSender(appUser)
+        .setRoom(room)
+        .setText(message);
+
+
+    return read.getNotifier().notifyUser(user, msg.getMessage());
+}
