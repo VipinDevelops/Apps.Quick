@@ -5,12 +5,12 @@ import { IUser } from '@rocket.chat/apps-engine/definition/users';
 export async function sendMessage(
     modify: IModify,
     room: IRoom,
-    sender: IUser,
+    user: IUser,
     message: string,
 ): Promise<string> {
 
     const msg = modify.getCreator().startMessage()
-        .setSender(sender)
+        .setSender(user)
         .setRoom(room)
         .setText(message);
 
