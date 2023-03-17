@@ -6,7 +6,7 @@ import { TemplatesApp } from "../TemplatesApp";
 
 export interface ExecutorProps {
     bot: IUser;
-    sender: IUser;
+    user: IUser;
     room: IRoom;
     command: string[];
     context: SlashCommandContext;
