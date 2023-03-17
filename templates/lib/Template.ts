@@ -1,29 +1,37 @@
 import { sendMessage } from "./sendMessage";
-
-const Templates:any = [];
-
-export async function storeTemplate(modify,room,name,template,bot){
-    const data = {
-        name: name,
-        template: template
-    }
-    Templates.push(data);
-    sendMessage(modify, room, bot, `Template *${name}* created successfully 👍`);
-}
-export async function sendTemplateMessage(name,modify,room,sender){
-    //find the data in templates which matches the name
-    const template = Templates.find((template:any) => template.name === name);
-    sendMessage(modify, room, sender, template.template);
+import { sendNotification } from "./sendNotification";
+import { edit } from "../storage/storetemplate";
+import { create } from "../storage/storetemplate";
+import { getallData } from "../storage/storetemplate";
+import {remove} from "../storage/storetemplate";
+type data ={
+    name: string,
+    template: string
 }
 
-export async function listTemplateMessages(modify,room,bot){
+export async function storeTemplate(modify,room,name,template,read,user,persistence){
+    await create(read,persistence,name,template);
+    sendNotification(read,modify, user,room,`Template *${name}* created successfully 👍`);
+}
+export async function sendTemplateMessage(name,read,modify,room,user){
+    const Templates:data[] = await getallData(read);
+    Templates.forEach(element => {
+        if(element.name === name){
+            sendMessage(modify, room, user, element.template);
+        }
+    });
+}
+
+export async function listTemplateMessages(modify,read,user,room){
+    const Templates:data[] = await getallData(read) ;
     if(Templates.length === 0){
-        sendMessage(modify, room, bot, `No templates found 😓`);
+        await sendNotification(read,modify, user,room,`No templates found 😓`)
         return;
     }
-    await sendMessage(modify, room, bot, `*List of templates* 👇`);
+    await sendNotification(read,modify, user,room,`*List of templates* 👇    
+    `);
     Templates.forEach(element => {
-        sendMessage(modify, room,bot, 
+        sendNotification(read,modify, user,room, 
             `*Name:* ${element.name}
         *Template:* ${element.template}
 
@@ -31,16 +39,12 @@ export async function listTemplateMessages(modify,room,bot){
     });
 }
 
-export async function deleteTemplateMessage(name,modify,room,bot) {
-    //find the data in templates which matches the name and delete it
-    const index = Templates.findIndex((template:any) => template.name === name);
-    Templates.splice(index,1);
-    sendMessage(modify, room, bot, `Template *${name}* deleted 🔥`);
+export async function deleteTemplateMessage(read,persistance,user,name,modify,room) {
+    await remove(read,persistance,name);
+    sendNotification(read,modify, user,room,`Template *${name}* deleted 🔥`)
 }
 
-export async function editTemplateMessage(name,template,modify,room,bot) {
-    //find the data in templates which matches the name and edit it
-    const index = Templates.findIndex((template:any) => template.name === name);
-    Templates[index].template = template;
-    sendMessage(modify, room, bot, `Template *${name}* edited to ${template}`);
+export async function editTemplateMessage(read,persistance,name,template,modify,room,user) {
+    await edit(read,persistance,name,template);
+    sendNotification(read,modify, user,room,`Template *${name}* edited to ${template}`)
 }
