@@ -10,9 +10,6 @@ import { TemplateCommand } from './commands/TemplateCommand';
 export class TemplatesApp extends App {
     constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
         super(info, logger, accessors);
-        //logging hello world 
-        const log = this.getLogger();
-        log.debug('Hello World!');
     }
     public async extendConfiguration(
         configuration: IConfigurationExtend
