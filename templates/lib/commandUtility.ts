@@ -6,9 +6,10 @@ import { TemplatesApp } from "../TemplatesApp";
 import { ExecutorProps } from "../definitions/ExecutorProps";
 import { sendMessage } from "./sendMessage";
 import  {storeTemplate,sendTemplateMessage,listTemplateMessages,deleteTemplateMessage,editTemplateMessage}  from "./Template";
+import { sendNotification } from "./sendNotification";
 
 export class CommandUtility implements ExecutorProps{
-    sender: IUser;
+    user: IUser;
     room: IRoom;
     command: string[];
     bot: IUser;
@@ -20,7 +21,7 @@ export class CommandUtility implements ExecutorProps{
     app: TemplatesApp;
  
     constructor(props: ExecutorProps) {
-        this.sender = props.sender;
+        this.user = props.user;
         this.room = props.room;
         this.command = props.command;
         this.context = props.context;
@@ -38,32 +39,27 @@ export class CommandUtility implements ExecutorProps{
         for (let i = 2; i < this.command.length; i++) {
             template += ` ${this.command[i]}`;
         }
-        // sendMessage(this.modify, this.room, this.bot, `create template  name: ${name} template: ${template} `);
-        storeTemplate(this.modify,this.room,name,template,this.bot);
+        storeTemplate(this.modify,this.room,name,template,this.read,this.user,this.persistence);
     }
     public async sendTemplate(name: string) {
-        // sendMessage(this.modify, this.room, this.sender, 'send template');
-        sendTemplateMessage(name,this.modify,this.room,this.sender)
+        sendTemplateMessage(name,this.read,this.modify,this.room,this.user)
     }
 
     public async listTemplates() {
-        // sendMessage(this.modify, this.room, this.bot, 'list templates');
-        listTemplateMessages(this.modify,this.room,this.bot);
+        listTemplateMessages(this.modify,this.read,this.user,this.room);
     }
     public async deleteTemplate(name) {
-        // sendMessage(this.modify, this.room, this.bot, 'delete template');
-        deleteTemplateMessage(name,this.modify,this.room,this.bot);
+        deleteTemplateMessage(this.read,this.persistence,this.user,name,this.modify,this.room);
     }
     public async editTemplate(name) {
         let template="";
         for (let i = 2; i < this.command.length; i++) {
             template += ` ${this.command[i]}`;
         }
-        // sendMessage(this.modify, this.room, this.sender, 'edit template');
-        editTemplateMessage(name,template,this.modify,this.room,this.bot);
+        editTemplateMessage(this.read,this.persistence,name,template,this.modify,this.room,this.user);
     }
     public async help() {
-        sendMessage(this.modify, this.room, this.bot, 
+        sendNotification(this.read,this.modify,this.user,this.room, 
         `## Template Commands
         */template create <name> <template> * - create a template
         */template send <name> *   - send a template
@@ -73,8 +69,8 @@ export class CommandUtility implements ExecutorProps{
         `);
     }
     public async sayHello() {
-        const message = `👋 Hey ${this.sender.name}!  \n Use */template help* to see the list of available commands.`;
-        await sendMessage(this.modify, this.room, this.bot, message);
+        const message = `👋 Hey ${this.user.name}!  \n Use */template help* to see the list of available commands.`;
+        await sendNotification(this.read,this.modify, this.user, this.room, message);
       }
       
     public async resolveCommand() {
