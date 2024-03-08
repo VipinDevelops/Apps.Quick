@@ -2,7 +2,7 @@ import { IHttp, IModify, IPersistence, IRead } from "@rocket.chat/apps-engine/de
 import { IRoom } from "@rocket.chat/apps-engine/definition/rooms";
 import { SlashCommandContext } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
-import { TemplatesApp } from "../TemplatesApp";
+import { QuickApp } from "../Quick";
 
 export interface ExecutorProps {
     bot: IUser;
@@ -14,5 +14,5 @@ export interface ExecutorProps {
     modify: IModify;
     http: IHttp;
     persistence: IPersistence;
-    app:TemplatesApp;
+    app: QuickApp;
 }
