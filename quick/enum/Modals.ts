@@ -33,7 +33,7 @@ export enum ModalsEnum {
     VIEW_FILE_ACTION_LABEL = 'View File',
     VIEW_DIFFS_ACTION_LABEL = 'View Changes',
     PULL_VIEW_LABEL = 'Pull Request',
-    MERGE_PULL_REQUEST_ACTION = 'merge-pull-request',
+    GENERATE_RESPONSE = 'generate-response',
     MERGE_PULL_REQUEST_LABEL = 'Merge',
     APPROVE_PULL_REQUEST_ACTION = 'approve-pull-request',
     APPROVE_PULL_REQUEST_LABEL = 'Approve',
@@ -224,5 +224,14 @@ export enum ModalsEnum {
     REMINDER_LIST_MODAL_VIEW = "reminder-list-view",
     REMINDER_LIST_MODAL = "reminder-list-modal",
     REMINDER_OPEN_REPO_ACTION = "open-repo-action",
-    REMINDER_REMOVE_REPO_ACTION = "remove-repo-reminder-action"
+    REMINDER_REMOVE_REPO_ACTION = "remove-repo-reminder-action",
+    PROMPT_INPUT = "prompt-input",
+    PROMPT_LABEL = "AI prompt",
+    PROMPT_INPUT_ACTION = "prompt-input-action",
+    PROMPT_PLACE_HOLDER = "Enter a prompt for AI to generate reply",
+
+    RESPONSE_INPUT = "Response-input",
+    RESPONSE_LABEL = "AI Response",
+    RESPONSE_INPUT_ACTION = "response-input-action",
+    RESPONSE_PLACE_HOLDER = " generated reply"
 }
