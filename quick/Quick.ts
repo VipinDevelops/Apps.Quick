@@ -49,7 +49,7 @@ export class QuickApp extends App {
         return await handler.run(context);
     }
     public async initialize(configurationExtend: IConfigurationExtend, environmentRead: IEnvironmentRead): Promise<void> {
-        console.log('init')
+        
         const AskAI: IUIActionButtonDescriptor = {
             actionId: "ask-ai",
             labelI18n: "ask_ai",

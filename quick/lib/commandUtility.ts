@@ -39,12 +39,9 @@ export class CommandUtility implements ExecutorProps {
         CreateHandler(this.read, this.context, this.app, this.persistence, this.http, this.room, this.modify)
     }
     public async sendTemplate(name: string) {
-        // sendTemplateMessage(name, this.read, this.modify, this.room, this.user)
-        //
     }
 
     public async listTemplates() {
-        // listTemplateMessages(this.modify, this.read, this.user, this.room);
         ListHandler(this.read, this.context, this.app, this.persistence, this.http, this.room, this.modify)
     }
     public async deleteTemplate(name) {
@@ -59,16 +56,13 @@ export class CommandUtility implements ExecutorProps {
     }
     public async help() {
         sendNotification(this.read, this.modify, this.user, this.room,
-            `## Template Commands
-        */template create <name> <template> * - create a template
-        */template send <name> *   - send a template
-        */template list*   - list all templates
-        */template delete <name> * - delete a template
-        */template edit <name> <new template>*   - edit a template
+            `## Quick Reply Commands
+        */quick create - create a reply
+        */quick list   - list all reply
         `);
     }
     public async sayHello() {
-        const message = `👋 Hey ${this.user.name}!  \n Use */template help* to see the list of available commands.`;
+        const message = `👋 Hey ${this.user.name}!  \n Use */quick help* to see the list of available commands.`;
         await sendNotification(this.read, this.modify, this.user, this.room, message);
     }
 
@@ -80,15 +74,15 @@ export class CommandUtility implements ExecutorProps {
             case 'list':
                 this.listTemplates();
                 break;
-            case 'send':
-                this.sendTemplate(this.command[1]);
-                break;
-            case 'delete':
-                this.deleteTemplate(this.command[1]);
-                break;
-            case 'edit':
-                this.editTemplate(this.command[1]);
-                break;
+            // case 'send':
+            //     this.sendTemplate(this.command[1]);
+            //     break;
+            // case 'delete':
+            //     this.deleteTemplate(this.command[1]);
+            //     break;
+            // case 'edit':
+            //     this.editTemplate(this.command[1]);
+            //     break;
             case 'help':
                 this.help();
                 break;

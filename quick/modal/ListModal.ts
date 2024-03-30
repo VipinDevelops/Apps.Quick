@@ -7,7 +7,7 @@ import { UIKitBlockInteractionContext, UIKitInteractionContext } from '@rocket.c
 import { getUserReply } from '../persistance/quick';
 import { IReply } from '../definitions/reply';
 
-export async function ReplyModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext }: { modify: IModify, read: IRead, persistence: IPersistence, http: IHttp, slashcommandcontext?: SlashCommandContext, uikitcontext?: UIKitInteractionContext }): Promise<IUIKitModalViewParam> {
+export async function ListModal({ modify, read, persistence, http, slashcommandcontext, uikitcontext }: { modify: IModify, read: IRead, persistence: IPersistence, http: IHttp, slashcommandcontext?: SlashCommandContext, uikitcontext?: UIKitInteractionContext }): Promise<IUIKitModalViewParam> {
     const viewId = ModalsEnum.REPLY_LIST_MODAL_VIEW;
 
     const block = modify.getCreator().getBlockBuilder();

@@ -22,7 +22,7 @@ import { getInteractionRoomData } from "../persistance/roomInteraction";
 import { IReply } from "../definitions/reply";
 import { UpdateAI } from "../persistance/askai";
 import { NewIssueModal } from "../modal/NewIssue";
-import { ReplyModal } from "../modal/ReplyModal";
+import { ListModal, } from "../modal/ListModal";
 import { GetReply, removeReply } from "../persistance/quick";
 
 export class ExecuteBlockActionHandler {
@@ -48,7 +48,7 @@ export class ExecuteBlockActionHandler {
                     const { value, user } = context.getInteractionData();
                     await removeReply(this.read, this.persistence, value as string, user);
 
-                    const updatedReminderModal = await ReplyModal({ modify: this.modify, read: this.read, persistence: this.persistence, http: this.http, uikitcontext: context });
+                    const updatedReminderModal = await ListModal({ modify: this.modify, read: this.read, persistence: this.persistence, http: this.http, uikitcontext: context });
 
                     return context.getInteractionResponder().updateModalViewResponse(updatedReminderModal);
                 }

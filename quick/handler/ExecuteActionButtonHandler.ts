@@ -24,7 +24,6 @@ export class ExecuteButtonActionHandler {
             const { actionId } = data;
             switch (actionId) {
                 case "ask-ai": {
-                    console.log('aslao')
 
                     const { message, user, room } = data;
 

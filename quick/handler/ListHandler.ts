@@ -4,7 +4,7 @@ import { QuickApp } from "../Quick";
 import { SlashCommandContext } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { IRoom } from "@rocket.chat/apps-engine/definition/rooms";
 import { CreateReplyModal } from "../modal/CreateModal";
-import { ReplyModal } from "../modal/ReplyModal";
+import { ListModal } from "../modal/ListModal";
 export async function ListHandler(
     read: IRead,
     context: SlashCommandContext,
@@ -16,7 +16,7 @@ export async function ListHandler(
 ) {
     const triggerId = context.getTriggerId();
     if (triggerId) {
-        const modal = await ReplyModal({
+        const modal = await ListModal({
             modify: modify,
             read: read,
             persistence: persistence,
