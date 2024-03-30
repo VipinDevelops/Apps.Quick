@@ -219,7 +219,6 @@ export enum ModalsEnum {
     MAIN_MODAL_REPOSITORY_SUBSCRIPTIONS_DESCRIPTION = "Subscribe to repositories Events",
     MAIN_MODAL_ASSIGN_ISSUES_LABLE = "Assign Issues",
     MAIN_MODAL_ASSIGN_ISSUES_DESCRIPTION = "Assign issues to your team members",
-    NEW_TEMPLATE_VIEW = "new-template-view",
     UNSUBSCRIBE_REMINDER_ACTION = "unsubscribe-reminder-action",
     REMINDER_LIST_MODAL_VIEW = "reminder-list-view",
     REMINDER_LIST_MODAL = "reminder-list-modal",
@@ -230,8 +229,10 @@ export enum ModalsEnum {
     PROMPT_INPUT_ACTION = "prompt-input-action",
     PROMPT_PLACE_HOLDER = "Enter a prompt for AI to generate reply",
 
+    CREATE_REPLY_VIEW = "create-reply-view",
     RESPONSE_INPUT = "Response-input",
     RESPONSE_LABEL = "AI Response",
     RESPONSE_INPUT_ACTION = "response-input-action",
-    RESPONSE_PLACE_HOLDER = " generated reply"
+    RESPONSE_PLACE_HOLDER = " generated reply",
+    CREATE_NEW_REPLY_ACTION = "new-reply-action",
 }

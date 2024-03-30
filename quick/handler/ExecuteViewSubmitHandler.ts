@@ -4,7 +4,7 @@ import { UIKitViewSubmitInteractionContext } from '@rocket.chat/apps-engine/defi
 import { ModalsEnum } from '../enum/Modals';
 import { getInteractionRoomData } from '../persistance/roomInteraction';
 import { QuickApp } from '../Quick';
-import { createReply } from '../modal/CreateTemplate';
+import { createReply } from './persistance/StoreReply';
 export class ExecuteViewSubmitHandler {
     constructor(
         private readonly app: QuickApp,
@@ -19,7 +19,7 @@ export class ExecuteViewSubmitHandler {
 
         try {
             switch (view.id) {
-                case ModalsEnum.NEW_TEMPLATE_VIEW: {
+                case ModalsEnum.CREATE_REPLY_VIEW: {
                     const { roomId } = await getInteractionRoomData(this.read.getPersistenceReader(), user.id);
 
                     if (roomId) {

@@ -3,10 +3,10 @@ import { IHttp, IModify, IPersistence, IRead } from "@rocket.chat/apps-engine/de
 import { IRoom } from "@rocket.chat/apps-engine/definition/rooms";
 import { SlashCommandContext } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
-import { HandleInvalidReply } from "../handler/HandleInvalidCreate";
-import { sendNotification } from "../lib/sendNotification";
-import { CreateReply } from "../persistance/quick";
-import { QuickApp } from "../Quick";
+import { sendNotification } from "../../lib/sendNotification";
+import { CreateReply } from "../../persistance/quick";
+import { QuickApp } from "../../Quick";
+import { HandleInvalidReply } from "../HandleInvalidCreate";
 
 export async function createReply(
     name: string,

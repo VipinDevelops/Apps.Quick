@@ -17,7 +17,7 @@ import {
     getInteractionRoomData,
 } from "../persistance/roomInteraction";
 
-export async function CreateTemplateModal({
+export async function CreateReplyModal({
     modify,
     read,
     persistence,
@@ -32,7 +32,7 @@ export async function CreateTemplateModal({
     slashcommandcontext?: SlashCommandContext;
     uikitcontext?: UIKitInteractionContext;
 }): Promise<IUIKitModalViewParam> {
-    const viewId = ModalsEnum.NEW_TEMPLATE_VIEW;
+    const viewId = ModalsEnum.CREATE_REPLY_VIEW;
     const block = modify.getCreator().getBlockBuilder();
     const room = slashcommandcontext?.getRoom() || uikitcontext?.getInteractionData().room;
     const user = slashcommandcontext?.getSender() || uikitcontext?.getInteractionData().user;
@@ -100,7 +100,7 @@ export async function CreateTemplateModal({
             },
         }),
         submit: block.newButtonElement({
-            actionId: "new-reply-action",
+            actionId: ModalsEnum.CREATE_NEW_REPLY_ACTION,
             text: {
                 type: TextObjectType.PLAINTEXT,
                 emoji: true,

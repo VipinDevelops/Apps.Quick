@@ -7,7 +7,8 @@ import { sendMessage } from "./sendMessage";
 import { storeTemplate, sendTemplateMessage, listTemplateMessages, deleteTemplateMessage, editTemplateMessage } from "./Template";
 import { sendNotification } from "./sendNotification";
 import { QuickApp } from "../Quick";
-import { CreateTemplate } from "../handler/TemplateHandler";
+import { CreateHandler } from "../handler/CreateHandler";
+import { ListHandler } from "../handler/ListHandler";
 
 export class CommandUtility implements ExecutorProps {
     user: IUser;
@@ -35,14 +36,16 @@ export class CommandUtility implements ExecutorProps {
     }
 
     public async createTemplate() {
-        CreateTemplate(this.read, this.context, this.app, this.persistence, this.http, this.room, this.modify)
+        CreateHandler(this.read, this.context, this.app, this.persistence, this.http, this.room, this.modify)
     }
     public async sendTemplate(name: string) {
-        sendTemplateMessage(name, this.read, this.modify, this.room, this.user)
+        // sendTemplateMessage(name, this.read, this.modify, this.room, this.user)
+        //
     }
 
     public async listTemplates() {
-        listTemplateMessages(this.modify, this.read, this.user, this.room);
+        // listTemplateMessages(this.modify, this.read, this.user, this.room);
+        ListHandler(this.read, this.context, this.app, this.persistence, this.http, this.room, this.modify)
     }
     public async deleteTemplate(name) {
         deleteTemplateMessage(this.read, this.persistence, this.user, name, this.modify, this.room);
@@ -71,7 +74,7 @@ export class CommandUtility implements ExecutorProps {
 
     public async resolveCommand() {
         switch (this.command[0]) {
-            case 'add':
+            case 'create':
                 this.createTemplate();
                 break;
             case 'list':

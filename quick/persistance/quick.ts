@@ -22,29 +22,31 @@ export async function CreateReply(
     name: string,
     body: string,
 ): Promise<void> {
-    let reminders = await getAllReminders(read);
-
-    if (reminders.length === 0) {
+    let Allreplyobj = await getAllReminders(read);
+    if (!Allreplyobj) {
         await persistence.createWithAssociation(
             [
                 {
-                    name: name, body: body
+                    userId: user.id,
+                    replies: [{ name: name, body: body }]
                 }
             ],
             assoc
         );
     } else {
-        const newreply = { name: name, body: body };
-        reminders.push(newreply);
-        persistence.updateByAssociation(assoc, reminders);
+        let reply = Allreplyobj.find((reply) => reply.userId === user.id);
+        if (reply) {
+            reply.replies.push({ name: name, body: body });
+            // console.log("push")
+            await persistence.updateByAssociation(assoc, Allreplyobj);
+        }
     }
-    return;
 }
-export async function getAllReminders(read: IRead): Promise<IReply[]> {
+
+export async function getAllReminders(read: IRead): Promise<IReply[] | undefined> {
     const data = await read.getPersistenceReader().readByAssociation(assoc);
-    return data.length ? (data[0] as IReply[]) : [];
+    return data[0] as IReply[];
 }
-// }
 
 // if (
 //     !isReminderExist(reminders, {
