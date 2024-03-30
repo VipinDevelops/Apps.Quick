@@ -228,11 +228,13 @@ export enum ModalsEnum {
     PROMPT_LABEL = "AI prompt",
     PROMPT_INPUT_ACTION = "prompt-input-action",
     PROMPT_PLACE_HOLDER = "Enter a prompt for AI to generate reply",
-
+    REPLY_LIST_MODAL_VIEW = "search-reply-view",
     CREATE_REPLY_VIEW = "create-reply-view",
     RESPONSE_INPUT = "Response-input",
     RESPONSE_LABEL = "AI Response",
     RESPONSE_INPUT_ACTION = "response-input-action",
     RESPONSE_PLACE_HOLDER = " generated reply",
     CREATE_NEW_REPLY_ACTION = "new-reply-action",
+    SEND_REPLY_ACTION = "send-reply-action",
+    REPLY_REMOVE_ACTION = "reply-remove-action"
 }

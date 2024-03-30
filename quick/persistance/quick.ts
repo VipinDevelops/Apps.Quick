@@ -9,6 +9,7 @@ import {
 } from '@rocket.chat/apps-engine/definition/metadata';
 import { IUser } from '@rocket.chat/apps-engine/definition/users';
 import { IReply } from '../definitions/reply';
+import { getallData } from '../storage/storetemplate';
 
 const assoc = new RocketChatAssociationRecord(
     RocketChatAssociationModel.MISC,
@@ -47,7 +48,34 @@ export async function getAllReminders(read: IRead): Promise<IReply[] | undefined
     const data = await read.getPersistenceReader().readByAssociation(assoc);
     return data[0] as IReply[];
 }
+export async function getUserReply(read: IRead, user: IUser): Promise<IReply | undefined> {
+    const allreply = await getAllReminders(read);
+    if (allreply) {
+        let reply = allreply.find((reply) => reply.userId === user.id) as IReply;
+        return reply
+    }
+    return undefined;
+}
 
+export async function removeReply(read: IRead, persistence: IPersistence, name: string, user: IUser): Promise<void> {
+    let allreply = await getAllReminders(read);
+    if (allreply) {
+        let reply = allreply.find((reply) => reply.userId === user.id) as IReply;
+        if (reply) {
+            reply.replies = reply.replies.filter((reply) => reply.name !== name);
+            await persistence.updateByAssociation(assoc, allreply);
+        }
+    }
+}
+
+export async function GetReply(read: IRead, persistence: IPersistence, name: string | undefined, user: IUser): Promise<string | undefined> {
+    const userreply = await getUserReply(read, user)
+
+    const replyobject = userreply?.replies.find((obj) => obj.name === name)
+    return replyobject?.body;
+}
+
+// getUserReply
 // if (
 //     !isReminderExist(reminders, {
 //         userid: user.id,

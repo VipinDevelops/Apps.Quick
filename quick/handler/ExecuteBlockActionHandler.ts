@@ -22,6 +22,8 @@ import { getInteractionRoomData } from "../persistance/roomInteraction";
 import { IReply } from "../definitions/reply";
 import { UpdateAI } from "../persistance/askai";
 import { NewIssueModal } from "../modal/NewIssue";
+import { ReplyModal } from "../modal/ReplyModal";
+import { GetReply, removeReply } from "../persistance/quick";
 
 export class ExecuteBlockActionHandler {
 
@@ -42,25 +44,25 @@ export class ExecuteBlockActionHandler {
         try {
             const { actionId } = data;
             switch (actionId) {
-                // case ModalsEnum.REPLY_REMOVE_ACTION: {
-                //     const { value, user } = context.getInteractionData();
-                //     await removeReply(this.read, this.persistence, value as string, user);
-                //
-                //     const updatedReminderModal = await ReplyModal({ modify: this.modify, read: this.read, persistence: this.persistence, http: this.http, uikitcontext: context });
-                //
-                //     return context.getInteractionResponder().updateModalViewResponse(updatedReminderModal);
-                // }
-                // case ModalsEnum.SEND_REPLY_ACTION: {
-                //     const { value, user } = context.getInteractionData();
-                //     let room: IRoom | undefined;
-                //     let roomId: string = "";
-                //     if (user?.id) {
-                //         roomId = (await getInteractionRoomData(this.read.getPersistenceReader(), user.id)).roomId;
-                //         room = await this.read.getRoomReader().getById(roomId) as IRoom;
-                //         const msg: IReply = await GetReply(this.read, this.persistence, value, user)
-                //         sendMessage(this.modify, room, user, `${msg.body}`)
-                //     }
-                // }
+                case ModalsEnum.REPLY_REMOVE_ACTION: {
+                    const { value, user } = context.getInteractionData();
+                    await removeReply(this.read, this.persistence, value as string, user);
+
+                    const updatedReminderModal = await ReplyModal({ modify: this.modify, read: this.read, persistence: this.persistence, http: this.http, uikitcontext: context });
+
+                    return context.getInteractionResponder().updateModalViewResponse(updatedReminderModal);
+                }
+                case ModalsEnum.SEND_REPLY_ACTION: {
+                    const { value, user } = context.getInteractionData();
+                    let room: IRoom | undefined;
+                    let roomId: string = "";
+                    if (user?.id) {
+                        roomId = (await getInteractionRoomData(this.read.getPersistenceReader(), user.id)).roomId;
+                        room = await this.read.getRoomReader().getById(roomId) as IRoom;
+                        const msg = await GetReply(this.read, this.persistence, value, user)
+                        sendMessage(this.modify, room, user, `${msg}`)
+                    }
+                }
                 case ModalsEnum.GENERATE_RESPONSE: {
                     const { user, room } = context.getInteractionData();
 
