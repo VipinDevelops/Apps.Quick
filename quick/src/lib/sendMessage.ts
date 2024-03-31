@@ -49,16 +49,16 @@ export async function sendUniqueMessage(
     // {{username}}
     let text = message;
 
-
     if (room.userIds?.length === 2) {
         let senderid = user.id;
         let otherUserId = room.userIds.find(userId => userId !== senderid);
         console.log(otherUserId, "other id ")
         if (otherUserId) {
             const recevier = await read.getUserReader().getById(otherUserId)
-            text = replaceUsername(text, recevier.username);
+            console.log(recevier.name, user.name)
+            text = replaceUsername(text, recevier.name);
+            text = replaceYourname(text, user.name)
         }
-
     }
 
     const messageBuilder = modify
@@ -83,9 +83,18 @@ export async function sendUniqueMessage(
 
 function replaceUsername(messagestring: string, replacement: string) {
     // Regular expression to match {{username}} pattern
-    const regex = /{{\s*username\s*}}/g;
+    const regex = /\[\s*username\s*\]/g;
 
     console.log("regex")
+    // Replace the pattern with the provided replacement
+    return messagestring.replace(regex, replacement);
+}
+
+function replaceYourname(messagestring: string, replacement: string) {
+    // Regular expression to match {{username}} pattern
+    const regex = /\[\s*myname\s*\]/g;
+
+    console.log("myname reg")
     // Replace the pattern with the provided replacement
     return messagestring.replace(regex, replacement);
 }

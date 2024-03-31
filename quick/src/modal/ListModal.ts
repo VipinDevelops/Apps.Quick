@@ -75,7 +75,7 @@ export async function ListModal({
                             type: TextObjectType.PLAINTEXT,
                         },
                     });
-                    const newbody = reply.body.slice(0, 60);
+                    const newbody = reply.body.slice(0, 70);
 
                     block.addContextBlock({
                         elements: [

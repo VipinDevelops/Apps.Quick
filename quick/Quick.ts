@@ -35,6 +35,7 @@ import { ActionButton } from "./src/enum/ActionButtons";
 import { settings } from "./src/settings/settings";
 import { IAppUtils } from "./src/lib/IAppUtils";
 import { ExecuteViewClosedHandler } from "./src/handler/ExecuteViewClosedHandler";
+import { QuickSendCommand } from "./src/commands/QScommand";
 export class QuickApp extends App {
     constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
         super(info, logger, accessors);
@@ -71,8 +72,12 @@ export class QuickApp extends App {
         };
 
         const quickCommand: QuickCommand = new QuickCommand(this);
+        const quickSendCommand: QuickSendCommand = new QuickSendCommand(this);
         await configurationExtend.slashCommands.provideSlashCommand(
             quickCommand
+        );
+        await configurationExtend.slashCommands.provideSlashCommand(
+            quickSendCommand
         );
 
         await Promise.all(
