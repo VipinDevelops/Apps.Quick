@@ -22,8 +22,9 @@ export async function CreateReply(
     name: string,
     body: string
 ): Promise<void> {
-    let Allreplyobj = await getAllReminders(read);
+    let Allreplyobj = await getAllReply(read);
     if (!Allreplyobj) {
+        // If there are no replies for any user yet, create a new entry.
         await persistence.createWithAssociation(
             [
                 {
@@ -34,16 +35,24 @@ export async function CreateReply(
             assoc
         );
     } else {
-        let reply = Allreplyobj.find((reply) => reply.userId === user.id);
-        if (reply) {
-            reply.replies.push({ name: name, body: body });
-            // console.log("push")
-            await persistence.updateByAssociation(assoc, Allreplyobj);
+        // Check if the user already has replies.
+        let userRepliesIndex = Allreplyobj.findIndex(reply => reply.userId === user.id);
+        if (userRepliesIndex !== -1) {
+            // If the user already has replies, push the new reply to their existing list.
+            Allreplyobj[userRepliesIndex].replies.push({ name: name, body: body });
+        } else {
+            // If the user doesn't have any replies yet, create a new entry for them.
+            Allreplyobj.push({
+                userId: user.id,
+                replies: [{ name: name, body: body }],
+            });
         }
+        // Update the persistence with the modified Allreplyobj.
+        await persistence.updateByAssociation(assoc, Allreplyobj);
     }
 }
 
-export async function getAllReminders(
+export async function getAllReply(
     read: IRead
 ): Promise<IReply[] | undefined> {
     const data = await read.getPersistenceReader().readByAssociation(assoc);
@@ -53,7 +62,7 @@ export async function getUserReply(
     read: IRead,
     user: IUser
 ): Promise<IReply | undefined> {
-    const allreply = await getAllReminders(read);
+    const allreply = await getAllReply(read);
     if (allreply) {
         let reply = allreply.find(
             (reply) => reply.userId === user.id
@@ -69,7 +78,7 @@ export async function removeReply(
     name: string,
     user: IUser
 ): Promise<void> {
-    let allreply = await getAllReminders(read);
+    let allreply = await getAllReply(read);
     if (allreply) {
         let reply = allreply.find(
             (reply) => reply.userId === user.id
@@ -122,7 +131,7 @@ export async function GetReply(
 // }
 
 // export async function unsubscribedPR(read: IRead, persistence: IPersistence, repo: string, Prnum: number, user: IUser): Promise<void> {
-//     const reminders = await getAllReminders(read);
+//     const reminders = await getAllReply(read);
 //     const repository = repo.trim();
 //     const PullRequestNumber = Prnum;
 //     const index = reminders.findIndex((reminder: IReminder) => reminder.userid === user.id);
@@ -151,7 +160,7 @@ export async function GetReply(
 //     persistence: IPersistence,
 //     user: IReminder
 // ): Promise<void> {
-//     const reminders = await getAllReminders(read);
+//     const reminders = await getAllReply(read);
 //
 //     if (!reminders || !isReminderExist(reminders, user)) {
 //         return;
@@ -168,13 +177,13 @@ export async function GetReply(
 // }
 //
 // export async function getUserReminder(read: IRead, User: IUser): Promise<IReminder> {
-//     const reminders = await getAllReminders(read);
+//     const reminders = await getAllReply(read);
 //     const index = reminders.findIndex((reminder) => reminder.userid === User.id);
 //     return reminders[index];
 // }
 //
 // export async function removeRepoReminder(read: IRead, persistence: IPersistence, repository: string, User: IUser) {
-//     const reminders = await getAllReminders(read);
+//     const reminders = await getAllReply(read);
 //     const idx = reminders.findIndex((u: IReminder) => u.userid === User.id);
 //
 //     if (idx === -1) {

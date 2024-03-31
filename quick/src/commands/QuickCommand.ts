@@ -14,11 +14,10 @@ import {
 } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
 import { CommandUtility } from "../lib/commandUtility";
-import { getAllReminders } from "../persistance/quick";
 import { QuickApp } from "../../Quick";
 
 export class QuickCommand implements ISlashCommand {
-    public constructor(private readonly app: QuickApp) {}
+    public constructor(private readonly app: QuickApp) { }
     public command = "quick";
     public i18nDescription = "cmd_description";
     public providesPreview = false;

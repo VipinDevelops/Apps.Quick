@@ -18,6 +18,7 @@ import {
 } from "@rocket.chat/apps-engine/definition/uikit";
 import { getUserReply } from "../persistance/quick";
 import { IReply } from "../../definitions/reply";
+import { getInteractionRoomData, storeInteractionRoomData } from "../persistance/roomInteraction";
 
 export async function ListModal({
     modify,
@@ -45,56 +46,71 @@ export async function ListModal({
         slashcommandcontext?.getSender() ||
         uikitcontext?.getInteractionData().user;
 
-    block.addDividerBlock();
-
     if (user?.id) {
-        const reply: IReply | undefined = await getUserReply(read, user);
-        const replys = reply?.replies;
+        let roomId;
 
-        console.log(replys);
-        if (replys && replys.length > 0) {
-            for (let reply of replys) {
+        if (room?.id) {
+            roomId = room.id;
+            await storeInteractionRoomData(persistence, user.id, roomId);
+        } else {
+            roomId = (
+                await getInteractionRoomData(
+                    read.getPersistenceReader(),
+                    user.id
+                )
+            ).roomId;
+        }
+        block.addDividerBlock();
+
+        if (user?.id) {
+            const reply: IReply | undefined = await getUserReply(read, user);
+            const replys = reply?.replies;
+
+            console.log(replys);
+            if (replys && replys.length > 0) {
+                for (let reply of replys) {
+                    block.addSectionBlock({
+                        text: {
+                            text: `${reply.name}`,
+                            type: TextObjectType.PLAINTEXT,
+                        },
+                    });
+                    const newbody = reply.body.slice(0, 60);
+
+                    block.addContextBlock({
+                        elements: [
+                            { type: TextObjectType.PLAINTEXT, text: `${newbody}` },
+                        ],
+                    });
+                    block.addActionsBlock({
+                        blockId: ModalsEnum.REPLY_LIST_MODAL,
+
+                        elements: [
+                            block.newButtonElement({
+                                actionId: ModalsEnum.SEND_REPLY_ACTION,
+                                text: block.newPlainTextObject("Send"),
+                                value: `${reply.name}`,
+                                style: ButtonStyle.PRIMARY,
+                            }),
+                            block.newButtonElement({
+                                actionId: ModalsEnum.REPLY_REMOVE_ACTION,
+                                text: block.newPlainTextObject("Remove"),
+                                value: `${reply.name}`,
+                                style: ButtonStyle.DANGER,
+                            }),
+                        ],
+                    });
+
+                    block.addDividerBlock();
+                }
+            } else {
                 block.addSectionBlock({
                     text: {
-                        text: `${reply.name}`,
+                        text: "You have no quick reply yet.",
                         type: TextObjectType.PLAINTEXT,
                     },
                 });
-                const newbody = reply.body.slice(0, 60);
-
-                block.addContextBlock({
-                    elements: [
-                        { type: TextObjectType.PLAINTEXT, text: `${newbody}` },
-                    ],
-                });
-                block.addActionsBlock({
-                    blockId: ModalsEnum.REPLY_LIST_MODAL,
-
-                    elements: [
-                        block.newButtonElement({
-                            actionId: ModalsEnum.SEND_REPLY_ACTION,
-                            text: block.newPlainTextObject("Send"),
-                            value: `${reply.name}`,
-                            style: ButtonStyle.PRIMARY,
-                        }),
-                        block.newButtonElement({
-                            actionId: ModalsEnum.REPLY_REMOVE_ACTION,
-                            text: block.newPlainTextObject("Remove"),
-                            value: `${reply.name}`,
-                            style: ButtonStyle.DANGER,
-                        }),
-                    ],
-                });
-
-                block.addDividerBlock();
             }
-        } else {
-            block.addSectionBlock({
-                text: {
-                    text: "You have no quick reply yet.",
-                    type: TextObjectType.PLAINTEXT,
-                },
-            });
         }
     }
 

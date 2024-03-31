@@ -10,7 +10,7 @@ import {
 } from "@rocket.chat/apps-engine/definition/uikit";
 import { IRoom } from "@rocket.chat/apps-engine/definition/rooms";
 import { ModalsEnum } from "../enum/Modals";
-import { sendMessage } from "../lib/sendMessage";
+import { sendMessage, sendUniqueMessage } from "../lib/sendMessage";
 import { getInteractionRoomData } from "../persistance/roomInteraction";
 import { GetReply, removeReply } from "../persistance/quick";
 import { ListModal } from "../modal/ListModal";
@@ -19,7 +19,7 @@ import { ModalInteractionStorage } from "../storage/ModalINteractionStorage";
 import { AiReplyContextualEnum } from "../enum/Contextual/AIModal";
 import { generateAiReply } from "../lib/AIGenerate";
 import { AiReplyContextualBar } from "../modal/Contextual/AIreply";
-import { deleteAI } from "../persistance/askai";
+import { deleteAI, GetAI } from "../persistance/askai";
 
 export class ExecuteBlockActionHandler {
     private readonly context: UIKitBlockInteractionContext;
@@ -64,7 +64,8 @@ export class ExecuteBlockActionHandler {
 
         const room = (await this.read.getRoomReader().getById(roomId)) as IRoom;
         const msg = await GetReply(this.read, this.persistence, value, user);
-        sendMessage(this.modify, user, room, `${msg}`);
+        await sendUniqueMessage(this.read, this.modify, user, room, `${msg}`);
+
     }
 
     private async handleReplyRemoveAction(): Promise<IUIKitResponse> {
@@ -170,7 +171,8 @@ export class ExecuteBlockActionHandler {
         ))!;
 
         if (room) {
-            await sendMessage(this.modify, user, room, value);
+            const ai = await GetAI(this.read)
+            await sendMessage(this.modify, user, room, value, ai.threadid);
             await deleteAI(this.persistence);
         }
 

@@ -13,7 +13,7 @@ import { QuickApp } from "../../Quick";
 import { ActionButton } from "../enum/ActionButtons";
 import { sendNotification } from "../lib/sendNotification";
 import { QuickAIHandler } from "./QuickAIHandler";
-import { createAI } from "../persistance/askai";
+import { createAI, UpdateAI } from "../persistance/askai";
 
 export class ExecuteActionButtonHandler {
     private context: UIKitActionButtonInteractionContext;
@@ -76,8 +76,11 @@ export class ExecuteActionButtonHandler {
 
                 if (message && message.text) {
                     // console.log(message.threadId, "threadId");
-                    console.log(message,)
+                    console.log(threadId, "threadId")
                     await createAI(message.text, this.read, this.persistence)
+                    if (threadId) {
+                        await UpdateAI("", '', "", threadId, this.read, this.persistence)
+                    }
                     await handler.CreateAIreply(this.http, message.text);
                 } else {
                     sendNotification(
