@@ -1,6 +1,12 @@
-import { App } from '@rocket.chat/apps-engine/definition/App';
-import { IAppInfo } from '@rocket.chat/apps-engine/definition/metadata';
-import { IUIKitResponse, UIKitActionButtonInteractionContext, UIKitBlockInteractionContext, UIKitViewSubmitInteractionContext } from '@rocket.chat/apps-engine/definition/uikit';
+import { App } from "@rocket.chat/apps-engine/definition/App";
+import { IAppInfo } from "@rocket.chat/apps-engine/definition/metadata";
+import {
+    IUIKitResponse,
+    UIKitActionButtonInteractionContext,
+    UIKitBlockInteractionContext,
+    UIKitViewCloseInteractionContext,
+    UIKitViewSubmitInteractionContext,
+} from "@rocket.chat/apps-engine/definition/uikit";
 import {
     IAppAccessors,
     IAppInstallationContext,
@@ -15,23 +21,26 @@ import {
     IPersistence,
     IRead,
 } from "@rocket.chat/apps-engine/definition/accessors";
-import { QuickCommand } from './commands/QuickCommand';
-import { ExecuteViewSubmitHandler } from './handler/ExecuteViewSubmitHandler';
-import { IUIActionButtonDescriptor, UIActionButtonContext } from '@rocket.chat/apps-engine/definition/ui';
-import { ExecuteButtonActionHandler } from './handler/ExecuteActionButtonHandler';
-import { ExecuteBlockActionHandler } from './handler/ExecuteBlockActionHandler';
+import {
+    IUIActionButtonDescriptor,
+    UIActionButtonContext,
+} from "@rocket.chat/apps-engine/definition/ui";
+import { QuickCommand } from "./src/commands/QuickCommand";
+import { ExecuteActionButtonHandler } from "./src/handler/ExecuteActionButtonHandler";
+import { ExecuteBlockActionHandler } from "./src/handler/ExecuteBlockActionHandler";
+import { ExecuteViewSubmitHandler } from "./src/handler/ExecuteViewSubmitHandler";
+import { ElementBuilder } from "./src/lib/ElementBuilder";
+import { BlockBuilder } from "./src/lib/BlockBuilder";
+import { ActionButton } from "./src/enum/ActionButtons";
+import { settings } from "./src/settings/settings";
+import { IAppUtils } from "./src/lib/IAppUtils";
+import { ExecuteViewClosedHandler } from "./src/handler/ExecuteViewClosedHandler";
 export class QuickApp extends App {
-
     constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
         super(info, logger, accessors);
     }
-    public async extendConfiguration(
-        configuration: IConfigurationExtend
-    ): Promise<void> {
-        const helloWorldCommand: QuickCommand = new
-            QuickCommand(this);
-        await configuration.slashCommands.provideSlashCommand(helloWorldCommand)
-    }
+    private elementBuilder: ElementBuilder;
+    private blockBuilder: BlockBuilder;
     public async executeViewSubmitHandler(
         context: UIKitViewSubmitInteractionContext,
         read: IRead,
@@ -48,18 +57,37 @@ export class QuickApp extends App {
         );
         return await handler.run(context);
     }
-    public async initialize(configurationExtend: IConfigurationExtend, environmentRead: IEnvironmentRead): Promise<void> {
-        
-        const AskAI: IUIActionButtonDescriptor = {
-            actionId: "ask-ai",
-            labelI18n: "ask_ai",
-            context: UIActionButtonContext.MESSAGE_ACTION,
-        }
+    public async initialize(
+        configurationExtend: IConfigurationExtend,
+        environmentRead: IEnvironmentRead
+    ): Promise<void> {
+        this.elementBuilder = new ElementBuilder(this.getID());
+        this.blockBuilder = new BlockBuilder(this.getID());
 
-        const quickCommand: QuickCommand = new
-            QuickCommand(this);
-        await configurationExtend.slashCommands.provideSlashCommand(quickCommand)
+        const AskAI: IUIActionButtonDescriptor = {
+            actionId: ActionButton.ASK_AI,
+            labelI18n: ActionButton.ASK_AI_LABEL,
+            context: UIActionButtonContext.MESSAGE_ACTION,
+        };
+
+        const quickCommand: QuickCommand = new QuickCommand(this);
+        await configurationExtend.slashCommands.provideSlashCommand(
+            quickCommand
+        );
+
+        await Promise.all(
+            settings.map((setting) => {
+                configurationExtend.settings.provideSetting(setting);
+            })
+        );
+
         configurationExtend.ui.registerButton(AskAI);
+    }
+    public getUtils(): IAppUtils {
+        return {
+            elementBuilder: this.elementBuilder,
+            blockBuilder: this.blockBuilder,
+        };
     }
     public async executeActionButtonHandler(
         context: UIKitActionButtonInteractionContext,
@@ -68,15 +96,15 @@ export class QuickApp extends App {
         persistence: IPersistence,
         modify: IModify
     ): Promise<IUIKitResponse> {
-
-        const handler = new ExecuteButtonActionHandler(
+        const handler = new ExecuteActionButtonHandler(
             this,
             read,
             http,
+            persistence,
             modify,
-            persistence
-        )
-        return await handler.run(context)
+            context
+        );
+        return await handler.handleActions();
     }
     public async executeBlockActionHandler(
         context: UIKitBlockInteractionContext,
@@ -89,9 +117,29 @@ export class QuickApp extends App {
             this,
             read,
             http,
+            persistence,
             modify,
-            persistence
+            context
         );
-        return await handler.run(context);
+
+        return await handler.handleActions();
+    }
+    public async executeViewClosedHandler(
+        context: UIKitViewCloseInteractionContext,
+        read: IRead,
+        http: IHttp,
+        persistence: IPersistence,
+        modify: IModify
+    ): Promise<IUIKitResponse> {
+        const handler = new ExecuteViewClosedHandler(
+            this,
+            read,
+            http,
+            persistence,
+            modify,
+            context
+        );
+
+        return await handler.handleActions();
     }
 }
