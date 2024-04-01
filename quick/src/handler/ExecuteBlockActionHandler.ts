@@ -20,6 +20,7 @@ import { AiReplyContextualEnum } from "../enum/Contextual/AIModal";
 import { generateAiReply } from "../lib/AIGenerate";
 import { AiReplyContextualBar } from "../modal/Contextual/AIreply";
 import { deleteAI, GetAI, UpdateAI } from "../persistance/askai";
+import { EditModal } from "../modal/EditModal";
 
 export class ExecuteBlockActionHandler {
     private readonly context: UIKitBlockInteractionContext;
@@ -42,6 +43,20 @@ export class ExecuteBlockActionHandler {
             case ModalsEnum.SEND_REPLY_ACTION:
                 await this.handleSendReplyAction();
                 break;
+            case ModalsEnum.EDIT_REPLY_ACTION:
+                const { value } = this.context.getInteractionData();
+                // const user = this.context.getInteractionData().user;
+                const addSubscriptionModal = await EditModal({
+                    modify: this.modify,
+                    read: this.read,
+                    persistence: this.persistence,
+                    http: this.http,
+                    uikitcontext: this.context,
+                    value
+                })
+                return this.context
+                    .getInteractionResponder()
+                    .openModalViewResponse(addSubscriptionModal);
             case ModalsEnum.REPLY_REMOVE_ACTION:
                 return this.handleReplyRemoveAction();
             case AiReplyContextualEnum.PROMPT_ACTION:
@@ -66,8 +81,8 @@ export class ExecuteBlockActionHandler {
         const room = (await this.read.getRoomReader().getById(roomId)) as IRoom;
         const msg = await GetReply(this.read, this.persistence, value, user);
         await sendUniqueMessage(this.read, this.modify, user, room, `${msg}`);
-
     }
+
 
     private async handleReplyRemoveAction(): Promise<IUIKitResponse> {
         const { value } = this.context.getInteractionData();
@@ -128,7 +143,6 @@ export class ExecuteBlockActionHandler {
             this.persistence,
             this.read.getPersistenceReader()
         );
-        console.log("generate reply called ");
         const { user, triggerId } = this.context.getInteractionData();
         const { value } = (await modalInteraction.getInputState(
             AiReplyContextualEnum.PROMPT_ACTION
@@ -154,7 +168,6 @@ export class ExecuteBlockActionHandler {
         );
 
         if (contextualBar instanceof Error) {
-            console.log("erorrr ttests")
             this.app.getLogger().error(contextualBar.message);
             return this.context.getInteractionResponder().errorResponse();
         }

@@ -9,7 +9,7 @@ import {
     ITextObject,
     TextObjectType,
 } from "@rocket.chat/apps-engine/definition/uikit/blocks";
-import { IUIKitModalViewParam } from "@rocket.chat/apps-engine/definition/uikit/UIKitInteractionResponder";
+import { IUIKitContextualBarViewParam, IUIKitModalViewParam } from "@rocket.chat/apps-engine/definition/uikit/UIKitInteractionResponder";
 import { ModalsEnum } from "../enum/Modals";
 import { SlashCommandContext } from "@rocket.chat/apps-engine/definition/slashcommands";
 import {
@@ -34,7 +34,7 @@ export async function ListModal({
     http: IHttp;
     slashcommandcontext?: SlashCommandContext;
     uikitcontext?: UIKitInteractionContext;
-}): Promise<IUIKitModalViewParam> {
+}): Promise<IUIKitContextualBarViewParam> {
     const viewId = ModalsEnum.REPLY_LIST_MODAL_VIEW;
 
     const block = modify.getCreator().getBlockBuilder();
@@ -89,6 +89,12 @@ export async function ListModal({
                             block.newButtonElement({
                                 actionId: ModalsEnum.SEND_REPLY_ACTION,
                                 text: block.newPlainTextObject("Send"),
+                                value: `${reply.name}`,
+                                style: ButtonStyle.PRIMARY,
+                            }),
+                            block.newButtonElement({
+                                actionId: ModalsEnum.EDIT_REPLY_ACTION,
+                                text: block.newPlainTextObject("Edit"),
                                 value: `${reply.name}`,
                                 style: ButtonStyle.PRIMARY,
                             }),

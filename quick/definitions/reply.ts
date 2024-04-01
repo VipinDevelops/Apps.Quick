@@ -1,5 +1,5 @@
 
 export interface IReply {
     userId: string;
-    replies: { name: string, body: string }[];
+    replies: { id: string, name: string, body: string }[];
 }

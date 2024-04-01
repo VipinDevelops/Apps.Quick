@@ -14,7 +14,10 @@ const assoc = new RocketChatAssociationRecord(
     RocketChatAssociationModel.MISC,
     "reply"
 );
-
+function generateUniqueID(): string {
+    // Concatenate current timestamp with a random string to generate a unique ID.
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+}
 export async function CreateReply(
     read: IRead,
     persistence: IPersistence,
@@ -29,7 +32,7 @@ export async function CreateReply(
             [
                 {
                     userId: user.id,
-                    replies: [{ name: name, body: body }],
+                    replies: [{ id: generateUniqueID(),name: name, body: body }],
                 },
             ],
             assoc
@@ -39,13 +42,43 @@ export async function CreateReply(
         let userRepliesIndex = Allreplyobj.findIndex(reply => reply.userId === user.id);
         if (userRepliesIndex !== -1) {
             // If the user already has replies, push the new reply to their existing list.
-            Allreplyobj[userRepliesIndex].replies.push({ name: name, body: body });
+            Allreplyobj[userRepliesIndex].replies.push({ id:generateUniqueID(),name: name, body: body });
         } else {
             // If the user doesn't have any replies yet, create a new entry for them.
             Allreplyobj.push({
                 userId: user.id,
-                replies: [{ name: name, body: body }],
+                replies: [{ id:generateUniqueID(),name: name, body: body }],
             });
+        }
+        // Update the persistence with the modified Allreplyobj.
+        await persistence.updateByAssociation(assoc, Allreplyobj);
+    }
+}
+
+export async function UpdateReplyPersis(
+    read: IRead,
+    persistence: IPersistence,
+    user: IUser,
+    oldId: string,
+    newName: string,
+    newBody: string
+): Promise<void> {
+    let Allreplyobj = await getAllReply(read);
+    if (!Allreplyobj) {
+        // If there are no replies for any user yet, there's nothing to update.
+        return;
+    } else {
+        // Find the user's replies.
+        let userRepliesIndex = Allreplyobj.findIndex(reply => reply.userId === user.id);
+        if (userRepliesIndex !== -1) {
+            // If the user has replies, find the reply with the old ID.
+            console.log("oldId", oldId,newName,newBody);
+            let replyToUpdate = Allreplyobj[userRepliesIndex].replies.find(reply => reply.id === oldId);
+            if (replyToUpdate) {
+                // If the reply is found, update its name and body.
+                replyToUpdate.name = newName;
+                replyToUpdate.body = newBody;
+            }
         }
         // Update the persistence with the modified Allreplyobj.
         await persistence.updateByAssociation(assoc, Allreplyobj);
@@ -103,99 +136,3 @@ export async function GetReply(
     const replyobject = userreply?.replies.find((obj) => obj.name === name);
     return replyobject?.body;
 }
-
-// getUserReply
-// if (
-//     !isReminderExist(reminders, {
-//         userid: user.id,
-//         username: user.username,
-//         repos: [repo],
-//         unsubscribedPR: []
-//     })
-// ) {
-//     reminders.push({
-//         userid: user.id,
-//         username: user.name,
-//         repos: [repo],
-//         unsubscribedPR: []
-//     });
-//     await persistence.updateByAssociation(assoc, reminders);
-// } else {
-//     const idx = reminders.findIndex((u: IReminder) => u.userid === user.id)
-//
-//     if (!reminders[idx].repos.includes(repo)) {
-//         reminders[idx].repos.push(repo);
-//     }
-//
-//     await persistence.updateByAssociation(assoc, reminders)
-// }
-
-// export async function unsubscribedPR(read: IRead, persistence: IPersistence, repo: string, Prnum: number, user: IUser): Promise<void> {
-//     const reminders = await getAllReply(read);
-//     const repository = repo.trim();
-//     const PullRequestNumber = Prnum;
-//     const index = reminders.findIndex((reminder: IReminder) => reminder.userid === user.id);
-//     const reminder = reminders[index] as IReminder
-//     const unsubscribPR = reminder.unsubscribedPR.find((value) => value.repo === repository);
-//
-//     if (unsubscribPR) {
-//         const idx = reminder.unsubscribedPR.findIndex((value) => value.repo === repository);
-//         const unsubscribPRnums = reminder.unsubscribedPR[idx].prnum;
-//         if (!unsubscribPRnums.includes(PullRequestNumber)) {
-//             unsubscribPRnums.push(PullRequestNumber);
-//         }
-//     } else {
-//         reminder.unsubscribedPR.push({
-//             repo: repository,
-//             prnum: [PullRequestNumber]
-//         })
-//     }
-//
-//     await persistence.updateByAssociation(assoc, reminders)
-// }
-//
-//
-// export async function RemoveReminder(
-//     read: IRead,
-//     persistence: IPersistence,
-//     user: IReminder
-// ): Promise<void> {
-//     const reminders = await getAllReply(read);
-//
-//     if (!reminders || !isReminderExist(reminders, user)) {
-//         return;
-//     }
-//
-//     const idx = reminders.findIndex((u: IReminder) => u.userid === user.userid);
-//     reminders.splice(idx, 1);
-//     await persistence.updateByAssociation(assoc, reminders);
-// }
-//
-//
-// function isReminderExist(reminders: IReminder[], targetUser: IReminder): boolean {
-//     return reminders.some((user) => user.userid === targetUser.userid);
-// }
-//
-// export async function getUserReminder(read: IRead, User: IUser): Promise<IReminder> {
-//     const reminders = await getAllReply(read);
-//     const index = reminders.findIndex((reminder) => reminder.userid === User.id);
-//     return reminders[index];
-// }
-//
-// export async function removeRepoReminder(read: IRead, persistence: IPersistence, repository: string, User: IUser) {
-//     const reminders = await getAllReply(read);
-//     const idx = reminders.findIndex((u: IReminder) => u.userid === User.id);
-//
-//     if (idx === -1) {
-//         return;
-//     }
-//
-//     const repoindex = reminders[idx].repos.findIndex((repo) => repo == repository);
-//
-//     if (repoindex === -1) {
-//         return;
-//     }
-//
-//     reminders[idx].repos.splice(repoindex, 1);
-//     await persistence.updateByAssociation(assoc, reminders);
-// }

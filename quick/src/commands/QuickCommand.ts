@@ -38,7 +38,6 @@ export class QuickCommand implements ISlashCommand {
         if (!Array.isArray(command)) {
             return;
         }
-        console.log("executor");
 
         const commandUtility = new CommandUtility({
             user: user,
@@ -55,20 +54,5 @@ export class QuickCommand implements ISlashCommand {
 
         commandUtility.resolveCommand();
     }
-    // public async executor(context: SlashCommandContext, read: IRead, modify: IModify, http: IHttp, persis: IPersistence): Promise<void> {
-    //     console.log("executor")
-    //     return;
-    // }
-    // public async previewer(context: SlashCommandContext, read: IRead, modify: IModify, http: IHttp, persis: IPersistence): Promise<ISlashCommandPreview> {
-    //     console.log(context, "preview")
-    //     const getreply = getAllReminders(read);
-    //     let items: Array<ISlashCommandPreviewItem> = [{ id: "1", type: SlashCommandPreviewItemType.TEXT, value: "test" }]
-    //
-    //
-    //     return { i18nTitle: "Short Command", items }
-    // }
-    // public async executePreviewItem(item: ISlashCommandPreviewItem, context: SlashCommandContext, read: IRead, modify: IModify, http: IHttp, persis: IPersistence): Promise<void> {
-    //     modify.getExtender()
-    //     console.log(context);
-    // }
+
 }

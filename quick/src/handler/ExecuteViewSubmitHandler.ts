@@ -12,6 +12,8 @@ import { deleteAI, GetAI } from "../persistance/askai";
 import { getInteractionRoomData } from "../persistance/roomInteraction";
 import { QuickApp } from "../../Quick";
 import { createReply } from "./persistance/StoreReply";
+import { EditReplyHandler } from "./persistance/EditReply";
+import { ListModal } from "../modal/ListModal";
 export class ExecuteViewSubmitHandler {
     constructor(
         private readonly app: QuickApp,
@@ -42,7 +44,6 @@ export class ExecuteViewSubmitHandler {
                         let body = view.state?.[ModalsEnum.REPLY_BODY_INPUT]?.[
                             ModalsEnum.REPLY_BODY_INPUT_ACTION
                         ] as string;
-                        console.log(name, body);
 
                         await createReply(
                             name,
@@ -56,6 +57,47 @@ export class ExecuteViewSubmitHandler {
                             user
                         );
                     }
+                    break;
+                }
+                case ModalsEnum.EDIT_REPLY_VIEW: {
+                    const { roomId } = await getInteractionRoomData(
+                        this.read.getPersistenceReader(),
+                        user.id
+                    );
+
+                    if (roomId) {
+                        let room = (await this.read
+                            .getRoomReader()
+                            .getById(roomId)) as IRoom;
+                        let name = view.state?.[ModalsEnum.REPLY_NAME_INPUT]?.[
+                            ModalsEnum.REPLY_NAME_INPUT_ACTION
+                        ] as string;
+                        let body = view.state?.[ModalsEnum.REPLY_BODY_INPUT]?.[
+                            ModalsEnum.REPLY_BODY_INPUT_ACTION
+                        ] as string;
+                        console.log(name, body);
+
+                        await EditReplyHandler(
+                            name,
+                            body,
+                            room,
+                            this.read,
+                            this.app,
+                            this.persistence,
+                            this.modify,
+                            this.http,
+                            user
+                        );
+                    }
+                    const udpatemodal  = await ListModal({
+                        modify: this.modify,
+                        read: this.read,
+                        persistence: this.persistence,
+                        http: this.http,
+                        uikitcontext: context,
+
+                    });
+                    return context.getInteractionResponder().updateContextualBarViewResponse(udpatemodal);
                     break;
                 }
                 case ModalsEnum.SEND_AI_RESPONSE: {

@@ -10,7 +10,7 @@ import { CreateReplyModal } from "../modal/CreateModal";
 import { QuickApp } from "../../Quick";
 export async function CreateHandler(
     read: IRead,
-    context: SlashCommandContext,
+    context: SlashCommandContext  ,
     app: QuickApp,
     persistence: IPersistence,
     http: IHttp,

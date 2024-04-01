@@ -29,7 +29,7 @@ export async function ListHandler(
         });
         await modify
             .getUiController()
-            .openModalView(modal, { triggerId }, context.getSender());
+            .openContextualBarView(modal, { triggerId }, context.getSender());
     } else {
         console.log("invalid Trigger ID !");
     }

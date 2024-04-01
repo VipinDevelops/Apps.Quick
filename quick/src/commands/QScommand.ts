@@ -54,19 +54,13 @@ export class QuickSendCommand implements ISlashCommand {
     }
 
     public async executePreviewItem(item: ISlashCommandPreviewItem, context: SlashCommandContext, read: IRead, modify: IModify, http: IHttp, persis: IPersistence): Promise<void> {
-        console.log(item)
         const value = item.value;
         const name = value.split(":")[0].trim();
-        console.log(name)
         const user = context.getSender();
-        console.log(user)
         const room = context.getRoom();
-        console.log(room)
         const userReply = await getUserReply(read, user);
-        console.log(userReply, "userReply")
         const body = userReply?.replies.find(reply => reply.name.toLowerCase() === name.toLowerCase())?.body;
 
-        console.log("body")
         if (body) {
             await sendUniqueMessage(read, modify, user, room, body);
         }
