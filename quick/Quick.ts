@@ -36,6 +36,7 @@ import { settings } from "./src/settings/settings";
 import { IAppUtils } from "./src/lib/IAppUtils";
 import { ExecuteViewClosedHandler } from "./src/handler/ExecuteViewClosedHandler";
 import { QuickSendCommand } from "./src/commands/QScommand";
+import { sendHelperMessageOnInstall } from "./src/lib/sendMessage";
 export class QuickApp extends App {
     constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
         super(info, logger, accessors);
@@ -134,6 +135,17 @@ export class QuickApp extends App {
         );
 
         return await handler.handleActions();
+    }
+    public async onInstall(
+        context: IAppInstallationContext,
+        read: IRead,
+        http: IHttp,
+        persistence: IPersistence,
+        modify: IModify
+    ): Promise<void> {
+        const { user } = context;
+        await sendHelperMessageOnInstall(this.getID(), user, read, modify);
+        return;
     }
     public async executeViewClosedHandler(
         context: UIKitViewCloseInteractionContext,

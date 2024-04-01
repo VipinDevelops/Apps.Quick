@@ -7,7 +7,7 @@ import {
 import { IRoom } from "@rocket.chat/apps-engine/definition/rooms";
 import { SlashCommandContext } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
-import { sendMessage } from "./sendMessage";
+import { sendHelperMessageOnInstall, sendHelperNotification, sendMessage } from "./sendMessage";
 import { sendNotification } from "./sendNotification";
 import { ListHandler } from "../handler/ListHandler";
 import { QuickApp } from "../../Quick";
@@ -64,17 +64,23 @@ export class CommandUtility implements ExecutorProps {
         );
     }
     public async help() {
-        sendNotification(
+        // sendNotification(
+        //     this.read,
+        //     this.modify,
+        //     this.user,
+        //     this.room,
+        //     `## Quick Reply Commands
+        // */quick create* - create a reply
+        // */quick list*   - list all reply
+        // `
+        // );
+        sendHelperNotification(
             this.read,
             this.modify,
             this.user,
-            this.room,
-            `## Quick Reply Commands
-        */quick create* - create a reply
-        */quick list*   - list all reply
-        `
+            this.room
         );
-    }
+        }
     public async sayHello() {
         const message = `👋 Hey ${this.user.name}!  \n Use */quick help* to see the list of available commands.`;
         await sendNotification(
