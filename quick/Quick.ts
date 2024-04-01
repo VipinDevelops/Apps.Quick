@@ -86,6 +86,12 @@ export class QuickApp extends App {
             })
         );
 
+        const List : IUIActionButtonDescriptor={
+            actionId:ActionButton.LIST,
+            labelI18n:ActionButton.LIST_LABEL,
+            context:UIActionButtonContext.MESSAGE_BOX_ACTION,
+        }
+        configurationExtend.ui.registerButton(List);
         configurationExtend.ui.registerButton(AskAI);
     }
     public getUtils(): IAppUtils {

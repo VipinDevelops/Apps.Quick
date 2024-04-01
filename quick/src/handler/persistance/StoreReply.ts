@@ -45,6 +45,6 @@ export async function createReply(
         modify,
         user,
         room,
-        ` A quick Reply ${name} is create for you 👍`
+        ` A quick Reply *${name}* is create for you 👍`
     );
 }

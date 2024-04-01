@@ -51,6 +51,6 @@ export async function EditReplyHandler(
         modify,
         user,
         room,
-        `A quick Reply ${name} is edited for 👍`
+        `A quick Reply *${name}* is edited for 👍`
     );
 }

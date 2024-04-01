@@ -1,5 +1,6 @@
 {
     "cmd_description": "Help you make a quick reply",
     "cmd_qs_description": "Help you quickly send reply",
-    "ask_ai": "🤖 Generate a quick reply"
+    "ask_ai": "🤖 Generate a quick reply",
+    "list_label": "List of quick reply"
 }

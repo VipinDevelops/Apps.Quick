@@ -14,6 +14,7 @@ import { ActionButton } from "../enum/ActionButtons";
 import { sendNotification } from "../lib/sendNotification";
 import { QuickAIHandler } from "./QuickAIHandler";
 import { createAI, UpdateAI } from "../persistance/askai";
+import { ListModal } from "../modal/ListModal";
 
 export class ExecuteActionButtonHandler {
     private context: UIKitActionButtonInteractionContext;
@@ -96,6 +97,10 @@ export class ExecuteActionButtonHandler {
                 }
 
                 break;
+            }
+            case ActionButton.LIST:{
+                const modal = await ListModal({modify:this.modify,read:this.read,persistence:this.persistence,http:this.http,uikitcontext:this.context})
+                await this.modify.getUiController().openContextualBarView(modal, { triggerId }, user);
             }
         }
 
