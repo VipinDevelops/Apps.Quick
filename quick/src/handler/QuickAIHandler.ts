@@ -42,10 +42,11 @@ export class QuickAIHandler implements IHandler {
         );
     }
 
-    public async CreateAIreply(http: IHttp, text: string): Promise<void> {
+    public async CreateAIreply(): Promise<void> {
         const contextualBar = await AiReplyContextualBar(
             this.app,
             this.modalInteraction,
+            this.read
         );
 
         if (contextualBar instanceof Error) {

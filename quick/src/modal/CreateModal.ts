@@ -68,6 +68,8 @@ export async function CreateReplyModal({
             }),
         });
 
+        block.addDividerBlock();
+
         block.addInputBlock({
             blockId: ModalsEnum.REPLY_BODY_INPUT,
             label: {

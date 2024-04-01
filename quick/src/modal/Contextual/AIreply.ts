@@ -1,4 +1,4 @@
-import { IUIKitSurfaceViewParam } from "@rocket.chat/apps-engine/definition/accessors";
+import { IRead, IUIKitSurfaceViewParam } from "@rocket.chat/apps-engine/definition/accessors";
 import { Block, TextObjectType } from "@rocket.chat/ui-kit";
 import { ButtonStyle, UIKitSurfaceType } from "@rocket.chat/apps-engine/definition/uikit";
 import { ButtonInSectionComponent } from "../common/buttonInSectionComponent";
@@ -6,16 +6,21 @@ import { AiReplyContextualEnum } from "../../enum/Contextual/AIModal";
 import { QuickApp } from "../../../Quick";
 import { ModalInteractionStorage } from "../../storage/ModalINteractionStorage";
 import { inputElementComponent } from "../common/inputElementComponent";
+import { GetAI } from "../../persistance/askai";
 
 export async function AiReplyContextualBar(
     app: QuickApp,
     modalInteraction: ModalInteractionStorage,
+    read: IRead,
     response?: string
 ): Promise<IUIKitSurfaceViewParam | Error> {
-    const { elementBuilder } = app.getUtils();
+    const { elementBuilder, blockBuilder } = app.getUtils();
 
     const blocks: Block[] = [];
 
+    const ai = await GetAI(read)
+    const messagecontext = blockBuilder.createContextBlock({ contextElements: ["Message", ai.message] })
+    blocks.push(messagecontext);
     // Create input element for prompt message
     const promptInput = inputElementComponent(
         {
@@ -38,6 +43,7 @@ export async function AiReplyContextualBar(
             app,
             buttonText: AiReplyContextualEnum.GENERATE_BUTTON_LABEL,
             style: ButtonStyle.PRIMARY,
+
         },
         {
             actionId: AiReplyContextualEnum.GENERATE_BUTTON_ACTION,
@@ -45,10 +51,12 @@ export async function AiReplyContextualBar(
         }
     );
 
+    const divider = blockBuilder.createDividerBlock();
     // Push prompt message and generate reply button to blocks
-    blocks.push(promptInput, generateButton);
+    blocks.push(promptInput, generateButton, divider);
 
     // If response exists, create input element for reply message and send button
+    //
     if (response) {
         const replyInput = inputElementComponent(
             {

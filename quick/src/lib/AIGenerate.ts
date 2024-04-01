@@ -16,7 +16,7 @@ export async function generateAiReply(read: IRead, http: IHttp, text: string): P
         });
         return response;
     } catch (error) {
-        console.error("Error generating AI reply:", error);
+        console.log("Error generating AI reply:", error);
         throw error;
     }
 }
@@ -26,7 +26,7 @@ async function getApiKey(read: IRead): Promise<string> {
         const apiKey = await read.getEnvironmentReader().getSettings().getValueById(SettingEnum.AI_API_KEY) as string;
         return apiKey;
     } catch (error) {
-        console.error("Error retrieving API key:", error);
+        console.log("Error retrieving API key:", error);
         throw error;
     }
 }

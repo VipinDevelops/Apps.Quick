@@ -81,7 +81,7 @@ export class ExecuteActionButtonHandler {
                     if (threadId) {
                         await UpdateAI("", '', "", threadId, this.read, this.persistence)
                     }
-                    await handler.CreateAIreply(this.http, message.text);
+                    await handler.CreateAIreply();
                 } else {
                     sendNotification(
                         this.read,

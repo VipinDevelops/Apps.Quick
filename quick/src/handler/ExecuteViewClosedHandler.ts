@@ -10,6 +10,7 @@ import {
 } from "@rocket.chat/apps-engine/definition/uikit";
 import { QuickApp } from "../../Quick";
 import { AiReplyContextualEnum } from "../enum/Contextual/AIModal";
+import { deleteAI } from "../persistance/askai";
 import { ModalInteractionStorage } from "../storage/ModalINteractionStorage";
 
 export class ExecuteViewClosedHandler {
@@ -44,6 +45,7 @@ export class ExecuteViewClosedHandler {
                 ;
             }
         }
+        await deleteAI(this.persistence);
 
         return this.context.getInteractionResponder().successResponse();
     }

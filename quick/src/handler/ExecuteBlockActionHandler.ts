@@ -45,6 +45,7 @@ export class ExecuteBlockActionHandler {
             case ModalsEnum.REPLY_REMOVE_ACTION:
                 return this.handleReplyRemoveAction();
             case AiReplyContextualEnum.PROMPT_ACTION:
+            case AiReplyContextualEnum.REPLY_ACTION:
             case AiReplyContextualEnum.GENERATE_BUTTON_ACTION:
             case AiReplyContextualEnum.SEND_BUTTON_ACTION:
                 return this.handleAiAction(actionId);
@@ -96,6 +97,8 @@ export class ExecuteBlockActionHandler {
             return this.handleGenerateAiReply();
         } else if (actionId === AiReplyContextualEnum.SEND_BUTTON_ACTION) {
             return this.handleSendAiMessage();
+        } else if (actionId === AiReplyContextualEnum.REPLY_ACTION) {
+            return this.handleInputAction(actionId);
         }
 
         return this.context.getInteractionResponder().successResponse();
@@ -143,21 +146,18 @@ export class ExecuteBlockActionHandler {
         const contextualBar = await AiReplyContextualBar(
             this.app,
             modalInteraction,
+            this.read,
             aiReply
         );
 
         if (contextualBar instanceof Error) {
+            console.log("erorrr ttests")
             this.app.getLogger().error(contextualBar.message);
             return this.context.getInteractionResponder().errorResponse();
         }
-
-        await this.modify.getUiController().updateSurfaceView(
-            contextualBar,
-            { triggerId },
-            user
-        );
-
-        return this.context.getInteractionResponder().successResponse();
+        return this.context
+            .getInteractionResponder()
+            .updateContextualBarViewResponse(contextualBar);
     }
 
     private async handleSendAiMessage(): Promise<IUIKitResponse> {
@@ -173,7 +173,7 @@ export class ExecuteBlockActionHandler {
         if (room) {
             const ai = await GetAI(this.read)
             await sendMessage(this.modify, user, room, value, ai.threadid);
-            await deleteAI(this.persistence);
+            // await deleteAI(this.persistence);
         }
 
         return this.context.getInteractionResponder().successResponse();
