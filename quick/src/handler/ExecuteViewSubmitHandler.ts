@@ -56,6 +56,15 @@ export class ExecuteViewSubmitHandler {
                             this.http,
                             user
                         );
+                        const udpatemodal  = await ListModal({
+                            modify: this.modify,
+                            read: this.read,
+                            persistence: this.persistence,
+                            http: this.http,
+                            uikitcontext: context,
+    
+                        });
+                        return context.getInteractionResponder().updateContextualBarViewResponse(udpatemodal);
                     }
                     break;
                 }

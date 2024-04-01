@@ -60,6 +60,15 @@ export async function ListModal({
                 )
             ).roomId;
         }
+        block.addActionsBlock({blockId: ModalsEnum.CREATE_NEW_REPLY_ACTION_BLOCk,            elements: [
+            block.newButtonElement({
+                actionId: ModalsEnum.CREATE_NEW_REPLY_ACTION_ID,
+                text: block.newPlainTextObject("Add New Reply"),
+                // value: `${username}/${repositoryName} ${pullNumber}`,
+                style: ButtonStyle.PRIMARY,
+            }),
+        ],})
+
         block.addDividerBlock();
 
         if (user?.id) {

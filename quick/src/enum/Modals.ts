@@ -1,4 +1,6 @@
 export enum ModalsEnum {
+    CREATE_NEW_REPLY_ACTION_BLOCk = "CREATE_NEW_REPLY_ACTION_BLOCk",
+    CREATE_NEW_REPLY_ACTION_ID = "CREATE_NEW_REPLY_ACTION_ID",
     REPLY_REMOVE_ACTION = "reply-remove-action",
     SEND_REPLY_ACTION = "send-reply-action",
     EDIT_REPLY_ACTION = "edit-reply-action",

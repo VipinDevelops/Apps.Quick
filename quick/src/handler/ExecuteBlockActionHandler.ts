@@ -21,6 +21,7 @@ import { generateAiReply } from "../lib/AIGenerate";
 import { AiReplyContextualBar } from "../modal/Contextual/AIreply";
 import { deleteAI, GetAI, UpdateAI } from "../persistance/askai";
 import { EditModal } from "../modal/EditModal";
+import { CreateReplyModal } from "../modal/CreateModal";
 
 export class ExecuteBlockActionHandler {
     private readonly context: UIKitBlockInteractionContext;
@@ -46,7 +47,7 @@ export class ExecuteBlockActionHandler {
             case ModalsEnum.EDIT_REPLY_ACTION:
                 const { value } = this.context.getInteractionData();
                 // const user = this.context.getInteractionData().user;
-                const addSubscriptionModal = await EditModal({
+                const UpdateEditList = await EditModal({
                     modify: this.modify,
                     read: this.read,
                     persistence: this.persistence,
@@ -54,11 +55,25 @@ export class ExecuteBlockActionHandler {
                     uikitcontext: this.context,
                     value
                 })
+
                 return this.context
                     .getInteractionResponder()
-                    .openModalViewResponse(addSubscriptionModal);
+                    .openModalViewResponse(UpdateEditList);
             case ModalsEnum.REPLY_REMOVE_ACTION:
                 return this.handleReplyRemoveAction();
+            case ModalsEnum.CREATE_NEW_REPLY_ACTION_ID: 
+             const UpdateCreatelist = await CreateReplyModal({
+                    modify: this.modify,
+                    read: this.read,
+                    persistence: this.persistence,
+                    http: this.http,
+                    uikitcontext: this.context,
+                })   
+                
+                return this.context
+                    .getInteractionResponder()
+                    .openModalViewResponse(UpdateCreatelist);
+                
             case AiReplyContextualEnum.PROMPT_ACTION:
             case AiReplyContextualEnum.REPLY_ACTION:
             case AiReplyContextualEnum.GENERATE_BUTTON_ACTION:
