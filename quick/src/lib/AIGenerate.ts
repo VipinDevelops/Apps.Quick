@@ -6,7 +6,8 @@ export async function generateAiReply(read: IRead, http: IHttp, text: string): P
         const aiModel = await GetAI(read);
         const formattedMessage = formatMessage(aiModel.message, text);
         const apiKey = await getApiKey(read);
-        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`;
+        const AIurl = await getAIurl(read);
+        const url = `${AIurl}?key=${apiKey}`;
         const response = await http.post(url, {
             data: {
                 contents: [{
@@ -31,6 +32,16 @@ async function getApiKey(read: IRead): Promise<string> {
     }
 }
 
+
+async function getAIurl(read: IRead): Promise<string> {
+    try {
+        const URL = await read.getEnvironmentReader().getSettings().getValueById(SettingEnum.API_URL) as string;
+        return URL;
+    } catch (error) {
+        console.log("Error retrieving API key:", error);
+        throw error;
+    }
+}
 function formatMessage(originalMessage: string, replyText: string): string {
     return `You need to generate a reply for this message "${originalMessage}" keeping it two or three lines long it should be good message, short .You write professionally.Reply with "${replyText}". `;
 }

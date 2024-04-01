@@ -4,19 +4,19 @@ import {
 } from "@rocket.chat/apps-engine/definition/settings";
 export enum SettingEnum {
     AI_API_KEY = "ai-api-key",
-    PERSONA = "persona-prompt",
+    API_URL = "API_URL",
 }
 
 export const settings: Array<ISetting> = [
     {
-        id: SettingEnum.PERSONA,
+        id: SettingEnum.API_URL,
         type: SettingType.STRING,
-        packageValue: "Assume I am a engineer",
+        packageValue: "",
         required: true,
         public: false,
         section: "PersonalSettings",
-        i18nLabel: "Enter you Persona to change your AI response",
-        i18nPlaceholder: "Assume I am a engineer",
+        i18nLabel: "Enter Your AI API URL",
+        i18nPlaceholder: "Enter your AI API URL",
         hidden: false,
         multiline: false,
     },
