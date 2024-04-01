@@ -39,6 +39,7 @@ export function inputElementComponent(
             maxLength,
             dispatchActionConfig,
             initialValue,
+            
         },
         {
             blockId,

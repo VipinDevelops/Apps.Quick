@@ -19,7 +19,7 @@ import { ModalInteractionStorage } from "../storage/ModalINteractionStorage";
 import { AiReplyContextualEnum } from "../enum/Contextual/AIModal";
 import { generateAiReply } from "../lib/AIGenerate";
 import { AiReplyContextualBar } from "../modal/Contextual/AIreply";
-import { deleteAI, GetAI } from "../persistance/askai";
+import { deleteAI, GetAI, UpdateAI } from "../persistance/askai";
 
 export class ExecuteBlockActionHandler {
     private readonly context: UIKitBlockInteractionContext;
@@ -138,11 +138,14 @@ export class ExecuteBlockActionHandler {
         const aiReply = response.data.candidates[0].content.parts[0].text;
         console.log(aiReply);
 
+
         await modalInteraction.storeInputState(
             AiReplyContextualEnum.REPLY_ACTION,
             { value: aiReply }
         );
 
+
+        await UpdateAI("", "", aiReply, "", this.read, this.persistence)
         const contextualBar = await AiReplyContextualBar(
             this.app,
             modalInteraction,
@@ -155,6 +158,9 @@ export class ExecuteBlockActionHandler {
             this.app.getLogger().error(contextualBar.message);
             return this.context.getInteractionResponder().errorResponse();
         }
+
+
+        // this.context.getInteractionResponder().updateContextualBarViewResponse(updatedReminderModal);
         return this.context
             .getInteractionResponder()
             .updateContextualBarViewResponse(contextualBar);

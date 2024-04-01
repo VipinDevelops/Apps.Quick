@@ -29,11 +29,12 @@ export async function AiReplyContextualBar(
             placeholder: "",
             optional: false,
             dispatchActionConfigOnInput: true,
-            // initialValue: prompt,
+            initialValue: ai.prompt,
         },
         {
             actionId: AiReplyContextualEnum.PROMPT_ACTION,
             blockId: AiReplyContextualEnum.PROMPT_BLOCK,
+
         }
     );
 
@@ -65,7 +66,7 @@ export async function AiReplyContextualBar(
                 placeholder: "",
                 multiline: true,
                 optional: false,
-                initialValue: response,
+                initialValue: ai.response, 
                 dispatchActionConfigOnInput: true,
             },
             {
