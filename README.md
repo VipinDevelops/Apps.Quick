@@ -42,14 +42,11 @@ Introducing Quick App to RocketChat offers a convenient way to send standard res
    git clone https://github.com/<yourusername>/Apps.Quick
    ```
 2. Install NPM packages
-<br>
-   `
-   cd quick
-   `
-   <br>
-  `
-  npm install 
-  `
+
+   - `cd quick`
+   
+   - `npm i`
+
 3. Deploy app using:
    ```sh
    rc-apps deploy --url <serverurl> --username <username> --password <password>
