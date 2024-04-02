@@ -109,6 +109,9 @@ Introducing Quick App to RocketChat offers a convenient way to send standard res
 <video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/33ad68c3-876e-4203-8fb3-57a029c819a3"></video>
 ### Value Substitution
 <video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/bf23b9ee-5750-4a7d-a009-2da6fcc11b1b"></video>
+### Generate Quick response using AI 
+
+<video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/f4e6e7d1-6510-428e-ba9b-7853f315e189"></video>
 
 
 
