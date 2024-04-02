@@ -19,7 +19,7 @@ export async function AiReplyContextualBar(
     const blocks: Block[] = [];
 
     const ai = await GetAI(read)
-    const messagecontext = blockBuilder.createContextBlock({ contextElements: ["Message", ai.message] })
+    const messagecontext = blockBuilder.createContextBlock({ contextElements: ["Message", ai.message.slice(0,40)] })
     blocks.push(messagecontext);
     // Create input element for prompt message
     const promptInput = inputElementComponent(

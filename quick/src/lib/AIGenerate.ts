@@ -43,5 +43,5 @@ async function getAIurl(read: IRead): Promise<string> {
     }
 }
 function formatMessage(originalMessage: string, replyText: string): string {
-    return `You need to generate a reply for this message "${originalMessage}" keeping it two or three lines long it should be good message, short .You write professionally.Reply with "${replyText}". `;
+    return `You need to generate a reply for this message " ${originalMessage} " while maintaining good grammar and concise yet well-written content. Please ensure professionalism in your writing as your output will be shown to the user. Reply with " ${replyText} " `
 }
