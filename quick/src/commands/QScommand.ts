@@ -47,6 +47,7 @@ export class QuickSendCommand implements ISlashCommand {
             return { i18nTitle: "No Replies", items: [] };
         }
 
+        console.log(command);
         const matchReply = userReply.replies.filter(reply => reply.name.toLowerCase().includes(command[0].toLowerCase()));
         matchReply.forEach(reply => items.push({ id: items.length.toString(), type: SlashCommandPreviewItemType.TEXT, value: `${reply.name}: ${reply.body}`.slice(0, 40) }));
 

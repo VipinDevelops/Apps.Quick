@@ -95,7 +95,6 @@ export async function AskAIModal({
                 block.newButtonElement({
                     actionId: ModalsEnum.GENERATE_RESPONSE,
                     text: block.newPlainTextObject("Generate"),
-                    // value: `${username}/${repositoryName} ${pullNumber}`,
                     style: ButtonStyle.PRIMARY,
                 }),
             ],
