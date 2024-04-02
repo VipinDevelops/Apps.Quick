@@ -90,14 +90,22 @@ Introducing Quick App to RocketChat offers a convenient way to send standard res
 
 ## ✨ Glimpse :
 
+### on install
 ![On_install](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/40e9f995-c8b9-4b89-bbd8-43dafd485a9c)
+
+### help
 ![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/24663332-b3b6-4127-b4eb-e936b55c4f48)
+### setting
 ![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/54b8b15b-abc2-4ea9-b94e-2418bb0b2265)
+### action button
 ![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/af7e8d86-1901-4a66-8794-8020a46d60e8)
 
-https://github.com/VipinDevelops/Apps.Quick/assets/99081689/7749ea49-2a21-42a3-95b0-38a57a26fc1a
-https://github.com/VipinDevelops/Apps.Quick/assets/99081689/33ad68c3-876e-4203-8fb3-57a029c819a3
-https://github.com/VipinDevelops/Apps.Quick/assets/99081689/bf23b9ee-5750-4a7d-a009-2da6fcc11b1b
+### Slash Command
+<video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/7749ea49-2a21-42a3-95b0-38a57a26fc1a"></video>
+### Search Message
+<video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/33ad68c3-876e-4203-8fb3-57a029c819a3"></video>
+### Dynamic value
+<video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/bf23b9ee-5750-4a7d-a009-2da6fcc11b1b"></video>
 
 
 
