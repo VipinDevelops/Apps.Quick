@@ -11,21 +11,12 @@
   <h3 align="center">RocketChat Apps.Quick</h3>
 </div>
 
-<div align="center">
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 
-</div>
 
-```
 
-Introducing Quick App to RocketChat offers a convenient way to send standard responses swiftly, that can work as a pre-written message in customer support. Users can effortlessly create, edit, delete, and save a list of these quick replies, leveraging AI to generate responses tailored to their needs. 
+Introducing Quick App to RocketChat offers a convenient way to send standard responses swiftly, that can work as a pre-written message in customer support. Users can effortlessly create, edit, delete, and save a list of these quick replies, leveraging AI to generate responses tailored to their needs.
 
-```
 
 
 
@@ -51,9 +42,14 @@ Introducing Quick App to RocketChat offers a convenient way to send standard res
    git clone https://github.com/<yourusername>/Apps.Quick
    ```
 2. Install NPM packages
-   ```sh
-   cd oauth2; npm install
-   ```
+<br>
+   `
+   cd quick
+   `
+   <br>
+  `
+  npm install 
+  `
 3. Deploy app using:
    ```sh
    rc-apps deploy --url <serverurl> --username <username> --password <password>
@@ -69,16 +65,13 @@ Introducing Quick App to RocketChat offers a convenient way to send standard res
 >
 
 4. Once its deploy, Go to Installed Apps and Settings tab in RC,you would see two input fields:
-   ```
    
-    # Enter Your API URL 
-    // Its prefilled with google gemini right now we only support gemini
-    # Enter Your API key
-    // Go to [Google AI studio](https://aistudio.google.com/) and the in Get API key By and create you key by click the *
-Create API key* button .
+    ### Enter Your API URL 
+     Its prefilled with google gemini right now we only support gemini
+    ### Enter Your API key
+     Go to [Google AI studio](https://aistudio.google.com/) and the in Get API key By and create you key by click the **Create API key** button.
 
     
-   ```
 
 5. Once Its done save the changes,.
   
@@ -88,7 +81,7 @@ Create API key* button .
 
  Quick Replies in RocketChat brings significant advantages for its community. One notable benefit is the enhanced communication speed it offers. With Quick Replies, users can swiftly respond to messages by selecting from pre-written responses. This not only minimizes delays in communication exchanges but also fosters smoother interactions among users.
 
-## :rocket: Usage :
+## 🚀 Usage :
 
 ```
      • To create new reply /quick create.
@@ -99,7 +92,7 @@ Create API key* button .
 ```
 
 ## ✨ Glimpse :
-[oAuth](https://user-images.githubusercontent.com/65061890/226479699-5d975e54-ec27-400e-a853-22e5fc1470b4.webm)
+
 
 
 <!-- CONTRIBUTING -->
