@@ -95,9 +95,9 @@ Introducing Quick App to RocketChat offers a convenient way to send standard res
 ![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/54b8b15b-abc2-4ea9-b94e-2418bb0b2265)
 ![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/af7e8d86-1901-4a66-8794-8020a46d60e8)
 
-[Screencast from 2024-04-02 14-48-43.webm](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/7749ea49-2a21-42a3-95b0-38a57a26fc1a)
-[Screencast from 2024-04-02 14-59-05.webm](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/33ad68c3-876e-4203-8fb3-57a029c819a3)
-[Screencast from 2024-04-02 15-00-39.webm](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/bf23b9ee-5750-4a7d-a009-2da6fcc11b1b)
+https://github.com/VipinDevelops/Apps.Quick/assets/99081689/7749ea49-2a21-42a3-95b0-38a57a26fc1a
+https://github.com/VipinDevelops/Apps.Quick/assets/99081689/33ad68c3-876e-4203-8fb3-57a029c819a3
+https://github.com/VipinDevelops/Apps.Quick/assets/99081689/bf23b9ee-5750-4a7d-a009-2da6fcc11b1b
 
 
 
