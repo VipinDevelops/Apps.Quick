@@ -99,6 +99,9 @@ Introducing Quick App to RocketChat offers a convenient way to send standard res
 ![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/54b8b15b-abc2-4ea9-b94e-2418bb0b2265)
 ### List Action button
 ![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/af7e8d86-1901-4a66-8794-8020a46d60e8)
+### Generate with AI Action button
+![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/c3537864-6994-4e4f-8ce5-5bccb06f3a3b)
+
 
 ### Slash Command
 <video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/7749ea49-2a21-42a3-95b0-38a57a26fc1a"></video>
