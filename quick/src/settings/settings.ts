@@ -11,7 +11,7 @@ export const settings: Array<ISetting> = [
     {
         id: SettingEnum.API_URL,
         type: SettingType.STRING,
-        packageValue: "",
+        packageValue: "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent",
         required: true,
         public: false,
         section: "PersonalSettings",
