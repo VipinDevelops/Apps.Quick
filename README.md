@@ -103,14 +103,13 @@ Introducing Quick App to RocketChat offers a convenient way to send standard res
 ![image](https://github.com/VipinDevelops/Apps.Quick/assets/99081689/c3537864-6994-4e4f-8ce5-5bccb06f3a3b)
 
 
-### Slash Command
+### Slash Command [Link](https://drive.google.com/file/d/1HqzytABNr8ByiocF7JmxUNWRI47vktaA/view?usp=sharing)
 <video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/7749ea49-2a21-42a3-95b0-38a57a26fc1a"></video>
-### Search Message
+### Search Message [Link](https://drive.google.com/file/d/1sNHGZjesVNv8dcQxSjmw89EdiV5bwJaR/view?usp=sharing)
 <video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/33ad68c3-876e-4203-8fb3-57a029c819a3"></video>
-### Value Substitution
+### Value Substitution [Link](https://drive.google.com/file/d/18yatD5jauV2QQaOWOTlZnLOmEUoVMhQL/view?usp=sharing)
 <video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/bf23b9ee-5750-4a7d-a009-2da6fcc11b1b"></video>
-### Generate Quick response using AI 
-
+### Generate Quick response using AI [Link](https://drive.google.com/file/d/11jIfTW-54_RK3CPTj3CV593ygZwH2b_r/view?usp=sharing)
 <video src="https://github.com/VipinDevelops/Apps.Quick/assets/99081689/f4e6e7d1-6510-428e-ba9b-7853f315e189"></video>
 
 
